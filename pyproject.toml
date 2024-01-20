@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "user-service"
+version = "0.1.0"
+description = ""
+authors = ["Danil Emurashin"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+yoyo-migrations = "^8.2.0"
+pydantic = {extras = ["email"], version = "^2.5.3"}
+pydantic-settings = "^2.1.0"
+psycopg = {extras = ["binary", "pool"], version = "^3.1.16"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+ruff = "^0.1.11"
+loguru = "^0.7.2"
+grpcio = "^1.60.0"
+grpcio-tools = "^1.60.0"
+python-multipart = "^0.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+line-length = 120
+show-fixes = true
+src = ["app"]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP",  # pyupgrade
+]
+
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning"]

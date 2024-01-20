@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+#  server:
+#    build: ./app/server
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./app/server:/main
+#  client:
+#    build: ./app/client
+#    ports:
+#      - "8081:8080"
+#    volumes:
+#      - ./app/client:/main
+  db:
+    image: postgres:14
+    restart: always
+    container_name: user-postgres
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - "2346:5432"
