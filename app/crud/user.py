@@ -286,6 +286,26 @@ async def delete_user(
                     SET is_deleted = TRUE,
                     updated_at = now()::timestamp
                     WHERE id = '{user_id}';
+
+                    UPDATE "boxer"
+                    SET is_deleted = TRUE,
+                    updated_at = now()::timestamp
+                    WHERE id = '{user_id}';
+
+                    UPDATE "coach"
+                    SET is_deleted = TRUE,
+                    updated_at = now()::timestamp
+                    WHERE id = '{user_id}';
+
+                    UPDATE "judge"
+                    SET is_deleted = TRUE,
+                    updated_at = now()::timestamp
+                    WHERE id = '{user_id}';
+
+                    UPDATE "organizer"
+                    SET is_deleted = TRUE,
+                    updated_at = now()::timestamp
+                    WHERE id = '{user_id}';
                                 """)
                 await conn.commit()
 
