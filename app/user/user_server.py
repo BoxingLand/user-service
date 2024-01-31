@@ -124,17 +124,11 @@ class User(user_pb2_grpc.UserServicer):
             minio_url=settings.MINIO_URL,
         )
 
-        # data_file = minio_client.get_object(
-        #     bucket_name=settings.MINIO_BUCKET,
-        #     object_name=data.photo_name
-        # )
-
-        d = minio_client.presigned_get_object(
+        avatar_url = minio_client.presigned_get_object(
             bucket_name=settings.MINIO_BUCKET,
             object_name=data.photo_name
         )
-        print(data.weight)
-        return user_pb2.UserBoxerProfileResponse(**data.to_dict(), avatar=d)
+        return user_pb2.UserBoxerProfileResponse(**data.to_dict(), avatar=avatar_url)
 
 
     async def UploadFile(
