@@ -1,3 +1,5 @@
+CREATE TYPE sex AS ENUM('male', 'female');
+
 CREATE TABLE "user" (
     id UUID PRIMARY KEY,
     email VARCHAR(255),
@@ -6,6 +8,7 @@ CREATE TABLE "user" (
     last_name VARCHAR(255),
     middle_name VARCHAR(255),
     phone_number VARCHAR(255),
+    sex sex,
     birthday DATE,
     country VARCHAR(255),
     region VARCHAR(255),
@@ -54,6 +57,16 @@ CREATE TABLE "organizer" (
     is_deleted BOOLEAN
 );
 
+CREATE TABLE "photo" (
+    id UUID PRIMARY KEY,
+    user_id UUID,
+    photo_name VARCHAR(255),
+    is_avatar BOOLEAN,
+    updated_at timestamp,
+    created_at timestamp,
+    is_deleted BOOLEAN
+);
+
 ALTER TABLE "boxer" ADD FOREIGN KEY (user_id) REFERENCES "user" (id);
 
 ALTER TABLE "coach" ADD FOREIGN KEY (user_id) REFERENCES "user" (id);
@@ -61,3 +74,5 @@ ALTER TABLE "coach" ADD FOREIGN KEY (user_id) REFERENCES "user" (id);
 ALTER TABLE "judge" ADD FOREIGN KEY (user_id) REFERENCES "user" (id);
 
 ALTER TABLE "organizer" ADD FOREIGN KEY (user_id) REFERENCES "user" (id);
+
+ALTER TABLE "photo" ADD FOREIGN KEY (user_id) REFERENCES "user" (id);

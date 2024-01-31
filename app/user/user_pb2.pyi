@@ -4,6 +4,54 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class UserBoxerProfileRequest(_message.Message):
+    __slots__ = ("user_id",)
+    USER_ID_FIELD_NUMBER: _ClassVar[int]
+    user_id: str
+    def __init__(self, user_id: _Optional[str] = ...) -> None: ...
+
+class UserBoxerProfileResponse(_message.Message):
+    __slots__ = ("first_name", "last_name", "sex", "birthday", "country", "region", "weight", "height", "athletic_distinction", "avatar")
+    FIRST_NAME_FIELD_NUMBER: _ClassVar[int]
+    LAST_NAME_FIELD_NUMBER: _ClassVar[int]
+    SEX_FIELD_NUMBER: _ClassVar[int]
+    BIRTHDAY_FIELD_NUMBER: _ClassVar[int]
+    COUNTRY_FIELD_NUMBER: _ClassVar[int]
+    REGION_FIELD_NUMBER: _ClassVar[int]
+    WEIGHT_FIELD_NUMBER: _ClassVar[int]
+    HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    ATHLETIC_DISTINCTION_FIELD_NUMBER: _ClassVar[int]
+    AVATAR_FIELD_NUMBER: _ClassVar[int]
+    first_name: str
+    last_name: str
+    sex: str
+    birthday: str
+    country: str
+    region: str
+    weight: float
+    height: float
+    athletic_distinction: str
+    avatar: str
+    def __init__(self, first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., sex: _Optional[str] = ..., birthday: _Optional[str] = ..., country: _Optional[str] = ..., region: _Optional[str] = ..., weight: _Optional[float] = ..., height: _Optional[float] = ..., athletic_distinction: _Optional[str] = ..., avatar: _Optional[str] = ...) -> None: ...
+
+class UploadFileRequest(_message.Message):
+    __slots__ = ("file_content", "is_avatar", "content_type", "user_id")
+    FILE_CONTENT_FIELD_NUMBER: _ClassVar[int]
+    IS_AVATAR_FIELD_NUMBER: _ClassVar[int]
+    CONTENT_TYPE_FIELD_NUMBER: _ClassVar[int]
+    USER_ID_FIELD_NUMBER: _ClassVar[int]
+    file_content: bytes
+    is_avatar: bool
+    content_type: str
+    user_id: str
+    def __init__(self, file_content: _Optional[bytes] = ..., is_avatar: bool = ..., content_type: _Optional[str] = ..., user_id: _Optional[str] = ...) -> None: ...
+
+class UploadFileResponse(_message.Message):
+    __slots__ = ("message",)
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    message: str
+    def __init__(self, message: _Optional[str] = ...) -> None: ...
+
 class SignupRequest(_message.Message):
     __slots__ = ("account_type", "phone_number", "email", "password", "password_confirm")
     ACCOUNT_TYPE_FIELD_NUMBER: _ClassVar[int]
@@ -67,9 +115,10 @@ class ChangePasswordResponse(_message.Message):
     def __init__(self, token_type: _Optional[str] = ..., access_token: _Optional[str] = ..., refresh_token: _Optional[str] = ...) -> None: ...
 
 class UpdateUserProfileRequest(_message.Message):
-    __slots__ = ("first_name", "last_name", "middle_name", "birthday", "country", "region", "city", "user_id")
+    __slots__ = ("first_name", "last_name", "sex", "middle_name", "birthday", "country", "region", "city", "user_id")
     FIRST_NAME_FIELD_NUMBER: _ClassVar[int]
     LAST_NAME_FIELD_NUMBER: _ClassVar[int]
+    SEX_FIELD_NUMBER: _ClassVar[int]
     MIDDLE_NAME_FIELD_NUMBER: _ClassVar[int]
     BIRTHDAY_FIELD_NUMBER: _ClassVar[int]
     COUNTRY_FIELD_NUMBER: _ClassVar[int]
@@ -78,13 +127,14 @@ class UpdateUserProfileRequest(_message.Message):
     USER_ID_FIELD_NUMBER: _ClassVar[int]
     first_name: str
     last_name: str
+    sex: str
     middle_name: str
     birthday: str
     country: str
     region: str
     city: str
     user_id: str
-    def __init__(self, first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., middle_name: _Optional[str] = ..., birthday: _Optional[str] = ..., country: _Optional[str] = ..., region: _Optional[str] = ..., city: _Optional[str] = ..., user_id: _Optional[str] = ...) -> None: ...
+    def __init__(self, first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., sex: _Optional[str] = ..., middle_name: _Optional[str] = ..., birthday: _Optional[str] = ..., country: _Optional[str] = ..., region: _Optional[str] = ..., city: _Optional[str] = ..., user_id: _Optional[str] = ...) -> None: ...
 
 class UpdateUserProfileResponse(_message.Message):
     __slots__ = ("message",)

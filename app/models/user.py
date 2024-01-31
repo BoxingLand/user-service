@@ -12,6 +12,7 @@ class User(BaseModel):
     last_name: str | None = None
     middle_name: str | None = None
     phone_number: str | None = None
+    sex: str | None = None
     birthdate: date | None = None
     country: str | None = None
     region: str | None = None
@@ -20,3 +21,22 @@ class User(BaseModel):
     created_at: datetime
     is_active: bool
     is_deleted: bool
+
+
+class BoxerProfile(BaseModel):
+    first_name: str
+    last_name: str
+    sex: str
+    birthday: date
+    country: str
+    region: str
+    weight: float
+    height: float
+    athletic_distinction: str
+    photo_name: str
+
+    def to_dict(self):
+        d = self.model_dump(exclude={'photo_name'})
+        if self.birthday:
+            d['birthday'] = self.birthday.isoformat()
+        return d

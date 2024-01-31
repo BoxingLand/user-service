@@ -19,4 +19,4 @@ ruff:
 	ruff check app
 
 grpc:
-	python3 -m grpc_tools.protoc -I./protos --python_out=. --pyi_out=. --grpc_python_out=. ./protos/user.proto
+	python3 -m grpc_tools.protoc -I./app/protos --python_out=. --pyi_out=. --grpc_python_out=. ./app/protos/user.proto

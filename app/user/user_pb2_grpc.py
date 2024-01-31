@@ -44,6 +44,16 @@ class UserStub(object):
                 request_serializer=user__pb2.DeleteUserRequest.SerializeToString,
                 response_deserializer=user__pb2.DeleteUserResponse.FromString,
                 )
+        self.UploadFile = channel.unary_unary(
+                '/user.User/UploadFile',
+                request_serializer=user__pb2.UploadFileRequest.SerializeToString,
+                response_deserializer=user__pb2.UploadFileResponse.FromString,
+                )
+        self.UserBoxerProfile = channel.unary_unary(
+                '/user.User/UserBoxerProfile',
+                request_serializer=user__pb2.UserBoxerProfileRequest.SerializeToString,
+                response_deserializer=user__pb2.UserBoxerProfileResponse.FromString,
+                )
 
 
 class UserServicer(object):
@@ -85,6 +95,18 @@ class UserServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UploadFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UserBoxerProfile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -117,6 +139,16 @@ def add_UserServicer_to_server(servicer, server):
                     servicer.DeleteUser,
                     request_deserializer=user__pb2.DeleteUserRequest.FromString,
                     response_serializer=user__pb2.DeleteUserResponse.SerializeToString,
+            ),
+            'UploadFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.UploadFile,
+                    request_deserializer=user__pb2.UploadFileRequest.FromString,
+                    response_serializer=user__pb2.UploadFileResponse.SerializeToString,
+            ),
+            'UserBoxerProfile': grpc.unary_unary_rpc_method_handler(
+                    servicer.UserBoxerProfile,
+                    request_deserializer=user__pb2.UserBoxerProfileRequest.FromString,
+                    response_serializer=user__pb2.UserBoxerProfileResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -227,5 +259,39 @@ class User(object):
         return grpc.experimental.unary_unary(request, target, '/user.User/DeleteUser',
             user__pb2.DeleteUserRequest.SerializeToString,
             user__pb2.DeleteUserResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UploadFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.User/UploadFile',
+            user__pb2.UploadFileRequest.SerializeToString,
+            user__pb2.UploadFileResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UserBoxerProfile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.User/UserBoxerProfile',
+            user__pb2.UserBoxerProfileRequest.SerializeToString,
+            user__pb2.UserBoxerProfileResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

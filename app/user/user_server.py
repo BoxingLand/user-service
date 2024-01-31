@@ -3,13 +3,17 @@ from uuid import UUID
 import grpc
 
 from app.client.auth import auth_pb2_grpc, auth_pb2
+from app.core.config import settings
+from app.crud.photo import add_photo_to_user, update_avatar
 from app.crud.user import create_user, set_verify_token, user_email_exists, user_phone_number_exists, delete_user, \
-    update_user_by_id, get_user_by_id, update_user_password, is_user_role_exist, add_role_to_user
+    update_user_by_id, get_user_by_id, update_user_password, is_user_role_exist, add_role_to_user, boxer_profile_by_id
 from app.exceptions.user_errors import (
     UserEmailExistException,
     UserPasswordNotMatchException,
     UserPhoneNumberExistException, UserNotFoundException, UserValidateException, UserRoleExist,
 )
+
+from app.minio_client.minio_client import MinioClient
 from app.user import user_pb2, user_pb2_grpc
 from app.utils.authenticate import authenticate
 from app.utils.password import encrypt_password, verify_password
@@ -105,6 +109,55 @@ class User(user_pb2_grpc.UserServicer):
             access_token=response.access_token,
             refresh_token=response.refresh_token
         )
+
+
+    async def UserBoxerProfile(
+            self,
+            request: user_pb2.UserBoxerProfileRequest,
+            context: grpc.aio.ServicerContext,
+    ) -> user_pb2.UserBoxerProfileResponse:
+        data = await boxer_profile_by_id(user_id=UUID(request.user_id))
+        minio_client = MinioClient(
+            access_key=settings.MINIO_ROOT_USER,
+            secret_key=settings.MINIO_ROOT_PASSWORD,
+            bucket_name=settings.MINIO_BUCKET,
+            minio_url=settings.MINIO_URL,
+        )
+
+        # data_file = minio_client.get_object(
+        #     bucket_name=settings.MINIO_BUCKET,
+        #     object_name=data.photo_name
+        # )
+
+        d = minio_client.presigned_get_object(
+            bucket_name=settings.MINIO_BUCKET,
+            object_name=data.photo_name
+        )
+        print(data.weight)
+        return user_pb2.UserBoxerProfileResponse(**data.to_dict(), avatar=d)
+
+
+    async def UploadFile(
+            self,
+            request: user_pb2.UploadFileRequest,
+            context: grpc.aio.ServicerContext,
+    ) -> user_pb2.UploadFileResponse:
+        minio_client = MinioClient(
+            access_key=settings.MINIO_ROOT_USER,
+            secret_key=settings.MINIO_ROOT_PASSWORD,
+            bucket_name=settings.MINIO_BUCKET,
+            minio_url=settings.MINIO_URL,
+        )
+
+        data_file = minio_client.put_object(
+            file_data=request.file_content,
+            content_type=request.content_type,
+        )
+        if request.is_avatar is True:
+            await update_avatar(user_id=UUID(request.user_id))
+
+        await add_photo_to_user(photo_data=request, photo_name=data_file.file_name)
+        return user_pb2.UploadFileResponse(message="Photo added")
 
 
     async def AddRole(

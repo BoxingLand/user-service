@@ -1,12 +1,11 @@
-from uuid import uuid4, UUID
+from uuid import UUID, uuid4
 
 from loguru import logger
 from psycopg.rows import class_row
 
-from app.exceptions.user_errors import UserCreateException, UserEmailNotFoundException
 from app.database.connection import pool
-from app.models.user import User
-
+from app.exceptions.user_errors import UserCreateException, UserEmailNotFoundException
+from app.models.user import User, BoxerProfile
 from app.user import user_pb2
 
 
@@ -193,6 +192,10 @@ async def update_user_by_id(
                         {f"'{update_data.middle_name}'" if update_data.middle_name != '' else 'NULL'},
                         middle_name
                     ),
+                    sex = COALESCE(
+                        {f"'{update_data.sex}'" if update_data.sex != '' else 'NULL'},
+                        sex
+                    ),
                     birthday = COALESCE(
                         {f"'{update_data.birthday}'" if update_data.birthday != '' else 'NULL'},
                         birthday
@@ -237,6 +240,7 @@ async def update_user_password(
         logger.error(e)
         await conn.rollback()
 
+
 async def is_user_role_exist(
         user_id: UUID,
         role: str,
@@ -252,6 +256,7 @@ async def is_user_role_exist(
             if data is None:
                 return None
             return data[0]
+
 
 async def add_role_to_user(
         role_data: user_pb2.AddRoleRequest,
@@ -312,3 +317,21 @@ async def delete_user(
     except Exception as e:
         logger.error(e)
         await conn.rollback()
+
+
+async def boxer_profile_by_id(
+        user_id: UUID,
+) -> BoxerProfile | None:
+    async with pool.connection() as conn:
+        async with conn.cursor(row_factory=class_row(BoxerProfile)) as cur:
+            await cur.execute(f"""
+                SELECT u.first_name, u.last_name, u.sex, u.birthday, u.country, u.region, b.weight, b.height, b.athletic_distinction, p.photo_name
+                FROM "user" u
+                JOIN "boxer" b ON u.id = b.user_id
+                LEFT JOIN "photo" p ON u.id = p.user_id AND p.is_avatar = TRUE
+                WHERE u.id = '{user_id}' AND b.is_deleted = FALSE;
+                            """)
+            data = await cur.fetchone()
+            if data is None:
+                return None
+            return data
