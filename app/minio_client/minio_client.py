@@ -1,10 +1,13 @@
 from datetime import timedelta
+from functools import lru_cache
 from io import BytesIO
 from uuid import uuid4
 
 from pydantic import BaseModel
 
 from minio import Minio
+
+from app.core.config import settings
 
 
 class IMinioResponse(BaseModel):
@@ -70,3 +73,15 @@ class MinioClient:
             return data_file
         except Exception as e:
             raise e
+
+@lru_cache
+def minio_auth() -> MinioClient:
+    minio = MinioClient(
+        access_key=settings.MINIO_ROOT_USER,
+        secret_key=settings.MINIO_ROOT_PASSWORD,
+        bucket_name=settings.MINIO_BUCKET,
+        minio_url=settings.MINIO_URL,
+    )
+    return minio
+
+minio_client = minio_auth()

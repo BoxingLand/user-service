@@ -4,7 +4,7 @@ include .env.local
 
 
 run:
-	python3 app/main.py
+	python -m app
 
 up-local:
 	docker compose -f docker-compose.local.yaml --env-file .env.local up -d

@@ -1,16 +1,18 @@
 from uuid import UUID, uuid4
 
+import grpc
 from loguru import logger
 from psycopg.rows import class_row
 
 from app.database.connection import pool
-from app.exceptions.user_errors import UserCreateException, UserEmailNotFoundException
+
 from app.models.user import User, BoxerProfile
 from app.user import user_pb2
 
 
 async def create_user(
         signup_data: user_pb2.SignupRequest,
+        context: grpc.aio.ServicerContext,
 ) -> None:
     try:
         async with pool.connection() as conn:
@@ -41,7 +43,7 @@ async def create_user(
     except Exception as e:
         logger.error(e)
         await conn.rollback()
-        raise UserCreateException()  # noqa: B904
+        await context.abort(grpc.StatusCode.INTERNAL)
 
 
 async def get_user_by_id(
@@ -134,7 +136,7 @@ async def get_verify_token_by_user_email(
 
 async def set_verify_token(
         email: str,
-        verify_token: str
+        verify_token: str,
 ):
     try:
         async with pool.connection() as conn:
@@ -150,7 +152,6 @@ async def set_verify_token(
     except Exception as e:
         logger.error(e)
         await conn.rollback()
-        raise UserEmailNotFoundException(email=email)  # noqa: B904
 
 
 async def verify_user(

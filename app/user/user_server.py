@@ -2,18 +2,15 @@ from uuid import UUID
 
 import grpc
 
+
 from app.client.auth import auth_pb2_grpc, auth_pb2
 from app.core.config import settings
 from app.crud.photo import add_photo_to_user, update_avatar
 from app.crud.user import create_user, set_verify_token, user_email_exists, user_phone_number_exists, delete_user, \
     update_user_by_id, get_user_by_id, update_user_password, is_user_role_exist, add_role_to_user, boxer_profile_by_id
-from app.exceptions.user_errors import (
-    UserEmailExistException,
-    UserPasswordNotMatchException,
-    UserPhoneNumberExistException, UserNotFoundException, UserValidateException, UserRoleExist,
-)
 
-from app.minio_client.minio_client import MinioClient
+
+from app.minio_client.minio_client import minio_client
 from app.user import user_pb2, user_pb2_grpc
 from app.utils.authenticate import authenticate
 from app.utils.password import encrypt_password, verify_password
@@ -27,7 +24,7 @@ class User(user_pb2_grpc.UserServicer):
             context: grpc.aio.ServicerContext,
     ) -> user_pb2.SignupResponse:
         if request.password != request.password_confirm:
-            raise UserPasswordNotMatchException()
+            await context.abort(grpc.StatusCode.INVALID_ARGUMENT, details="PasswordNotMatch")
 
         # password_check = await password_validation(request.password)
         # if len(password_check):
@@ -35,20 +32,21 @@ class User(user_pb2_grpc.UserServicer):
 
         email_exists = await user_email_exists(email=request.email)
         if email_exists == request.email and request.email is not None:
-            raise UserEmailExistException(email=request.email)
+            await context.abort(grpc.StatusCode.ALREADY_EXISTS, details="Email")
 
         phone_number_exists = await user_phone_number_exists(phone_number=request.phone_number)
         if phone_number_exists == request.phone_number and request.phone_number is not None:
-            raise UserPhoneNumberExistException(phone_number=request.phone_number)
+            await context.abort(grpc.StatusCode.ALREADY_EXISTS, details="Phone")
 
         request.password = encrypt_password(password=request.password)
-        await create_user(signup_data=request)
+        await create_user(signup_data=request, context=context)
 
         verification_token = generate_verification_token()
 
         await set_verify_token(
             email=request.email,
             verify_token=verification_token,
+            context=context
         )
 
         # TODO email подтверждение переписать
@@ -59,7 +57,7 @@ class User(user_pb2_grpc.UserServicer):
             request: user_pb2.SigninRequest,
             context: grpc.aio.ServicerContext,
     ) -> user_pb2.SigninResponse:
-        user = await authenticate(signin_data=request)
+        user = await authenticate(signin_data=request, context=context)
 
 
         async with grpc.aio.insecure_channel("localhost:50052") as channel:
@@ -82,16 +80,16 @@ class User(user_pb2_grpc.UserServicer):
             context: grpc.aio.ServicerContext,
     ) -> user_pb2.ChangePasswordResponse:
         if request.new_password != request.new_password_confirm:
-            raise UserPasswordNotMatchException()
+            await context.abort(grpc.StatusCode.INVALID_ARGUMENT, details="PasswordNotMatch")
 
         user = await get_user_by_id(
             user_id=UUID(request.user_id)
         )
         if user is None:
-            raise UserNotFoundException()
+            await context.abort(grpc.StatusCode.NOT_FOUND)
 
         if not verify_password(request.current_password, user.password):
-            raise UserValidateException()
+            await context.abort(grpc.StatusCode.INVALID_ARGUMENT, details="WrongPassword")
 
         await update_user_password(
             user_id=user.id,
@@ -117,13 +115,8 @@ class User(user_pb2_grpc.UserServicer):
             context: grpc.aio.ServicerContext,
     ) -> user_pb2.UserBoxerProfileResponse:
         data = await boxer_profile_by_id(user_id=UUID(request.user_id))
-        minio_client = MinioClient(
-            access_key=settings.MINIO_ROOT_USER,
-            secret_key=settings.MINIO_ROOT_PASSWORD,
-            bucket_name=settings.MINIO_BUCKET,
-            minio_url=settings.MINIO_URL,
-        )
-
+        if data is None:
+            await context.abort(grpc.StatusCode.NOT_FOUND)
         avatar_url = minio_client.presigned_get_object(
             bucket_name=settings.MINIO_BUCKET,
             object_name=data.photo_name
@@ -136,12 +129,6 @@ class User(user_pb2_grpc.UserServicer):
             request: user_pb2.UploadFileRequest,
             context: grpc.aio.ServicerContext,
     ) -> user_pb2.UploadFileResponse:
-        minio_client = MinioClient(
-            access_key=settings.MINIO_ROOT_USER,
-            secret_key=settings.MINIO_ROOT_PASSWORD,
-            bucket_name=settings.MINIO_BUCKET,
-            minio_url=settings.MINIO_URL,
-        )
 
         data_file = minio_client.put_object(
             file_data=request.file_content,
@@ -163,7 +150,7 @@ class User(user_pb2_grpc.UserServicer):
                 user_id=UUID(request.user_id),
                 role=request.account_type
         ) is not None:
-            raise UserRoleExist(role=request.account_type)
+            await context.abort(grpc.StatusCode.ALREADY_EXISTS)
 
         await add_role_to_user(role_data=request)
 

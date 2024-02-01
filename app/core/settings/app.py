@@ -2,20 +2,20 @@ from app.core.settings.base import BaseAppSettings
 
 
 class AppSettings(BaseAppSettings):
-    DATABASE_USER: str = "admin"
-    DATABASE_PASSWORD: str = "admin"
-    DATABASE_HOST: str = "localhost"
-    DATABASE_PORT: int | str = "2346"
-    DATABASE_NAME: str = "user"
+    DATABASE_USER: str
+    DATABASE_PASSWORD: str
+    DATABASE_HOST: str
+    DATABASE_PORT: int | str
+    DATABASE_NAME: str
 
-    MINIO_ROOT_USER: str = "admin"
-    MINIO_ROOT_PASSWORD: str = "adminadmin"
-    MINIO_URL: str = "localhost:9000"
-    MINIO_BUCKET: str = "boxing-land"
+    MINIO_ROOT_USER: str
+    MINIO_ROOT_PASSWORD: str
+    MINIO_URL: str
+    MINIO_BUCKET: str
 
-    DB_POOL_SIZE: int = 90
+    DB_POOL_SIZE: int
 
-    SERVER_PORT: int = 50051
+    SERVER_PORT: int
     class Config:
         case_sensitive = True
         validate_assignment = True
