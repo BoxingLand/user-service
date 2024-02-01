@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\x12\x04user\"*\n\x17UserBoxerProfileRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"\xcf\x01\n\x18UserBoxerProfileResponse\x12\x12\n\nfirst_name\x18\x01 \x01(\t\x12\x11\n\tlast_name\x18\x02 \x01(\t\x12\x0b\n\x03sex\x18\x03 \x01(\t\x12\x10\n\x08\x62irthday\x18\x04 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x05 \x01(\t\x12\x0e\n\x06region\x18\x06 \x01(\t\x12\x0e\n\x06weight\x18\x07 \x01(\x01\x12\x0e\n\x06height\x18\x08 \x01(\x01\x12\x1c\n\x14\x61thletic_distinction\x18\t \x01(\t\x12\x0e\n\x06\x61vatar\x18\n \x01(\t\"c\n\x11UploadFileRequest\x12\x14\n\x0c\x66ile_content\x18\x01 \x01(\x0c\x12\x11\n\tis_avatar\x18\x02 \x01(\x08\x12\x14\n\x0c\x63ontent_type\x18\x03 \x01(\t\x12\x0f\n\x07user_id\x18\x04 \x01(\t\"%\n\x12UploadFileResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x9b\x01\n\rSignupRequest\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x01 \x01(\t\x12\x19\n\x0cphone_number\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65mail\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x10\n\x08password\x18\x04 \x01(\t\x12\x18\n\x10password_confirm\x18\x05 \x01(\tB\x0f\n\r_phone_numberB\x08\n\x06_email\"!\n\x0eSignupResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"k\n\rSigninRequest\x12\x12\n\x05\x65mail\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x19\n\x0cphone_number\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x10\n\x08password\x18\x03 \x01(\tB\x08\n\x06_emailB\x0f\n\r_phone_number\"Q\n\x0eSigninResponse\x12\x12\n\ntoken_type\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\t\x12\x15\n\rrefresh_token\x18\x03 \x01(\t\"v\n\x15\x43hangePasswordRequest\x12\x18\n\x10\x63urrent_password\x18\x01 \x01(\t\x12\x14\n\x0cnew_password\x18\x02 \x01(\t\x12\x1c\n\x14new_password_confirm\x18\x03 \x01(\t\x12\x0f\n\x07user_id\x18\x04 \x01(\t\"Y\n\x16\x43hangePasswordResponse\x12\x12\n\ntoken_type\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\t\x12\x15\n\rrefresh_token\x18\x03 \x01(\t\"\xbf\x02\n\x18UpdateUserProfileRequest\x12\x17\n\nfirst_name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\tlast_name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x10\n\x03sex\x18\x03 \x01(\tH\x02\x88\x01\x01\x12\x18\n\x0bmiddle_name\x18\x04 \x01(\tH\x03\x88\x01\x01\x12\x15\n\x08\x62irthday\x18\x05 \x01(\tH\x04\x88\x01\x01\x12\x14\n\x07\x63ountry\x18\x06 \x01(\tH\x05\x88\x01\x01\x12\x13\n\x06region\x18\x07 \x01(\tH\x06\x88\x01\x01\x12\x11\n\x04\x63ity\x18\x08 \x01(\tH\x07\x88\x01\x01\x12\x0f\n\x07user_id\x18\t \x01(\tB\r\n\x0b_first_nameB\x0c\n\n_last_nameB\x06\n\x04_sexB\x0e\n\x0c_middle_nameB\x0b\n\t_birthdayB\n\n\x08_countryB\t\n\x07_regionB\x07\n\x05_city\",\n\x19UpdateUserProfileResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"7\n\x0e\x41\x64\x64RoleRequest\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\"\"\n\x0f\x41\x64\x64RoleResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"$\n\x11\x44\x65leteUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"%\n\x12\x44\x65leteUserResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2\xb0\x04\n\x04User\x12\x35\n\x06Signup\x12\x13.user.SignupRequest\x1a\x14.user.SignupResponse\"\x00\x12\x35\n\x06Signin\x12\x13.user.SigninRequest\x1a\x14.user.SigninResponse\"\x00\x12M\n\x0e\x43hangePassword\x12\x1b.user.ChangePasswordRequest\x1a\x1c.user.ChangePasswordResponse\"\x00\x12V\n\x11UpdateUserProfile\x12\x1e.user.UpdateUserProfileRequest\x1a\x1f.user.UpdateUserProfileResponse\"\x00\x12\x38\n\x07\x41\x64\x64Role\x12\x14.user.AddRoleRequest\x1a\x15.user.AddRoleResponse\"\x00\x12\x41\n\nDeleteUser\x12\x17.user.DeleteUserRequest\x1a\x18.user.DeleteUserResponse\"\x00\x12\x41\n\nUploadFile\x12\x17.user.UploadFileRequest\x1a\x18.user.UploadFileResponse\"\x00\x12S\n\x10UserBoxerProfile\x12\x1d.user.UserBoxerProfileRequest\x1a\x1e.user.UserBoxerProfileResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\x12\x04user\"*\n\x17UserBoxerProfileRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"\xcf\x01\n\x18UserBoxerProfileResponse\x12\x12\n\nfirst_name\x18\x01 \x01(\t\x12\x11\n\tlast_name\x18\x02 \x01(\t\x12\x0b\n\x03sex\x18\x03 \x01(\t\x12\x10\n\x08\x62irthday\x18\x04 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x05 \x01(\t\x12\x0e\n\x06region\x18\x06 \x01(\t\x12\x0e\n\x06weight\x18\x07 \x01(\x01\x12\x0e\n\x06height\x18\x08 \x01(\x01\x12\x1c\n\x14\x61thletic_distinction\x18\t \x01(\t\x12\x0e\n\x06\x61vatar\x18\n \x01(\t\"\xee\x04\n\rBoxersRequest\x12\x17\n\nfirst_name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\tlast_name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x11\n\x04\x63lub\x18\x03 \x01(\tH\x02\x88\x01\x01\x12\x14\n\x07\x63ountry\x18\x04 \x01(\tH\x03\x88\x01\x01\x12\x13\n\x06region\x18\x05 \x01(\tH\x04\x88\x01\x01\x12!\n\x14\x61thletic_distinction\x18\x06 \x01(\tH\x05\x88\x01\x01\x12\x10\n\x03sex\x18\x07 \x01(\tH\x06\x88\x01\x01\x12\x17\n\nmin_weight\x18\x08 \x01(\x01H\x07\x88\x01\x01\x12\x17\n\nmax_weight\x18\t \x01(\x01H\x08\x88\x01\x01\x12\x17\n\nmin_height\x18\n \x01(\x01H\t\x88\x01\x01\x12\x17\n\nmax_height\x18\x0b \x01(\x01H\n\x88\x01\x01\x12\x14\n\x07min_age\x18\x0c \x01(\x05H\x0b\x88\x01\x01\x12\x14\n\x07max_age\x18\r \x01(\x05H\x0c\x88\x01\x01\x12\x19\n\x0cmin_birthday\x18\x0e \x01(\tH\r\x88\x01\x01\x12\x19\n\x0cmax_birthday\x18\x0f \x01(\tH\x0e\x88\x01\x01\x12\x0c\n\x04page\x18\x10 \x01(\x05\x12\x11\n\tpage_size\x18\x11 \x01(\x05\x42\r\n\x0b_first_nameB\x0c\n\n_last_nameB\x07\n\x05_clubB\n\n\x08_countryB\t\n\x07_regionB\x17\n\x15_athletic_distinctionB\x06\n\x04_sexB\r\n\x0b_min_weightB\r\n\x0b_max_weightB\r\n\x0b_min_heightB\r\n\x0b_max_heightB\n\n\x08_min_ageB\n\n\x08_max_ageB\x0f\n\r_min_birthdayB\x0f\n\r_max_birthday\"\xb6\x01\n\x0e\x42oxersResponse\x12\x12\n\nfirst_name\x18\x01 \x01(\t\x12\x11\n\tlast_name\x18\x02 \x01(\t\x12\x0c\n\x04\x63lub\x18\x03 \x01(\t\x12\x0f\n\x07\x63ountry\x18\x04 \x01(\t\x12\x0e\n\x06region\x18\x05 \x01(\t\x12\x0e\n\x06weight\x18\x06 \x01(\x01\x12\x10\n\x08\x62irthday\x18\x07 \x01(\t\x12\x1c\n\x14\x61thletic_distinction\x18\x08 \x01(\t\x12\x0e\n\x06\x61vatar\x18\t \x01(\t\"c\n\x11UploadFileRequest\x12\x14\n\x0c\x66ile_content\x18\x01 \x01(\x0c\x12\x11\n\tis_avatar\x18\x02 \x01(\x08\x12\x14\n\x0c\x63ontent_type\x18\x03 \x01(\t\x12\x0f\n\x07user_id\x18\x04 \x01(\t\"%\n\x12UploadFileResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x9b\x01\n\rSignupRequest\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x01 \x01(\t\x12\x19\n\x0cphone_number\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65mail\x18\x03 \x01(\tH\x01\x88\x01\x01\x12\x10\n\x08password\x18\x04 \x01(\t\x12\x18\n\x10password_confirm\x18\x05 \x01(\tB\x0f\n\r_phone_numberB\x08\n\x06_email\"!\n\x0eSignupResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"k\n\rSigninRequest\x12\x12\n\x05\x65mail\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x19\n\x0cphone_number\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x10\n\x08password\x18\x03 \x01(\tB\x08\n\x06_emailB\x0f\n\r_phone_number\"Q\n\x0eSigninResponse\x12\x12\n\ntoken_type\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\t\x12\x15\n\rrefresh_token\x18\x03 \x01(\t\"v\n\x15\x43hangePasswordRequest\x12\x18\n\x10\x63urrent_password\x18\x01 \x01(\t\x12\x14\n\x0cnew_password\x18\x02 \x01(\t\x12\x1c\n\x14new_password_confirm\x18\x03 \x01(\t\x12\x0f\n\x07user_id\x18\x04 \x01(\t\"Y\n\x16\x43hangePasswordResponse\x12\x12\n\ntoken_type\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\t\x12\x15\n\rrefresh_token\x18\x03 \x01(\t\"\xbf\x02\n\x18UpdateUserProfileRequest\x12\x17\n\nfirst_name\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x16\n\tlast_name\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x10\n\x03sex\x18\x03 \x01(\tH\x02\x88\x01\x01\x12\x18\n\x0bmiddle_name\x18\x04 \x01(\tH\x03\x88\x01\x01\x12\x15\n\x08\x62irthday\x18\x05 \x01(\tH\x04\x88\x01\x01\x12\x14\n\x07\x63ountry\x18\x06 \x01(\tH\x05\x88\x01\x01\x12\x13\n\x06region\x18\x07 \x01(\tH\x06\x88\x01\x01\x12\x11\n\x04\x63ity\x18\x08 \x01(\tH\x07\x88\x01\x01\x12\x0f\n\x07user_id\x18\t \x01(\tB\r\n\x0b_first_nameB\x0c\n\n_last_nameB\x06\n\x04_sexB\x0e\n\x0c_middle_nameB\x0b\n\t_birthdayB\n\n\x08_countryB\t\n\x07_regionB\x07\n\x05_city\",\n\x19UpdateUserProfileResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"7\n\x0e\x41\x64\x64RoleRequest\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\"\"\n\x0f\x41\x64\x64RoleResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"$\n\x11\x44\x65leteUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"%\n\x12\x44\x65leteUserResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2\xe9\x04\n\x04User\x12\x35\n\x06Signup\x12\x13.user.SignupRequest\x1a\x14.user.SignupResponse\"\x00\x12\x35\n\x06Signin\x12\x13.user.SigninRequest\x1a\x14.user.SigninResponse\"\x00\x12M\n\x0e\x43hangePassword\x12\x1b.user.ChangePasswordRequest\x1a\x1c.user.ChangePasswordResponse\"\x00\x12V\n\x11UpdateUserProfile\x12\x1e.user.UpdateUserProfileRequest\x1a\x1f.user.UpdateUserProfileResponse\"\x00\x12\x38\n\x07\x41\x64\x64Role\x12\x14.user.AddRoleRequest\x1a\x15.user.AddRoleResponse\"\x00\x12\x41\n\nDeleteUser\x12\x17.user.DeleteUserRequest\x1a\x18.user.DeleteUserResponse\"\x00\x12\x41\n\nUploadFile\x12\x17.user.UploadFileRequest\x1a\x18.user.UploadFileResponse\"\x00\x12S\n\x10UserBoxerProfile\x12\x1d.user.UserBoxerProfileRequest\x1a\x1e.user.UserBoxerProfileResponse\"\x00\x12\x37\n\x06\x42oxers\x12\x13.user.BoxersRequest\x1a\x14.user.BoxersResponse\"\x00\x30\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -25,34 +25,38 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_USERBOXERPROFILEREQUEST']._serialized_end=62
   _globals['_USERBOXERPROFILERESPONSE']._serialized_start=65
   _globals['_USERBOXERPROFILERESPONSE']._serialized_end=272
-  _globals['_UPLOADFILEREQUEST']._serialized_start=274
-  _globals['_UPLOADFILEREQUEST']._serialized_end=373
-  _globals['_UPLOADFILERESPONSE']._serialized_start=375
-  _globals['_UPLOADFILERESPONSE']._serialized_end=412
-  _globals['_SIGNUPREQUEST']._serialized_start=415
-  _globals['_SIGNUPREQUEST']._serialized_end=570
-  _globals['_SIGNUPRESPONSE']._serialized_start=572
-  _globals['_SIGNUPRESPONSE']._serialized_end=605
-  _globals['_SIGNINREQUEST']._serialized_start=607
-  _globals['_SIGNINREQUEST']._serialized_end=714
-  _globals['_SIGNINRESPONSE']._serialized_start=716
-  _globals['_SIGNINRESPONSE']._serialized_end=797
-  _globals['_CHANGEPASSWORDREQUEST']._serialized_start=799
-  _globals['_CHANGEPASSWORDREQUEST']._serialized_end=917
-  _globals['_CHANGEPASSWORDRESPONSE']._serialized_start=919
-  _globals['_CHANGEPASSWORDRESPONSE']._serialized_end=1008
-  _globals['_UPDATEUSERPROFILEREQUEST']._serialized_start=1011
-  _globals['_UPDATEUSERPROFILEREQUEST']._serialized_end=1330
-  _globals['_UPDATEUSERPROFILERESPONSE']._serialized_start=1332
-  _globals['_UPDATEUSERPROFILERESPONSE']._serialized_end=1376
-  _globals['_ADDROLEREQUEST']._serialized_start=1378
-  _globals['_ADDROLEREQUEST']._serialized_end=1433
-  _globals['_ADDROLERESPONSE']._serialized_start=1435
-  _globals['_ADDROLERESPONSE']._serialized_end=1469
-  _globals['_DELETEUSERREQUEST']._serialized_start=1471
-  _globals['_DELETEUSERREQUEST']._serialized_end=1507
-  _globals['_DELETEUSERRESPONSE']._serialized_start=1509
-  _globals['_DELETEUSERRESPONSE']._serialized_end=1546
-  _globals['_USER']._serialized_start=1549
-  _globals['_USER']._serialized_end=2109
+  _globals['_BOXERSREQUEST']._serialized_start=275
+  _globals['_BOXERSREQUEST']._serialized_end=897
+  _globals['_BOXERSRESPONSE']._serialized_start=900
+  _globals['_BOXERSRESPONSE']._serialized_end=1082
+  _globals['_UPLOADFILEREQUEST']._serialized_start=1084
+  _globals['_UPLOADFILEREQUEST']._serialized_end=1183
+  _globals['_UPLOADFILERESPONSE']._serialized_start=1185
+  _globals['_UPLOADFILERESPONSE']._serialized_end=1222
+  _globals['_SIGNUPREQUEST']._serialized_start=1225
+  _globals['_SIGNUPREQUEST']._serialized_end=1380
+  _globals['_SIGNUPRESPONSE']._serialized_start=1382
+  _globals['_SIGNUPRESPONSE']._serialized_end=1415
+  _globals['_SIGNINREQUEST']._serialized_start=1417
+  _globals['_SIGNINREQUEST']._serialized_end=1524
+  _globals['_SIGNINRESPONSE']._serialized_start=1526
+  _globals['_SIGNINRESPONSE']._serialized_end=1607
+  _globals['_CHANGEPASSWORDREQUEST']._serialized_start=1609
+  _globals['_CHANGEPASSWORDREQUEST']._serialized_end=1727
+  _globals['_CHANGEPASSWORDRESPONSE']._serialized_start=1729
+  _globals['_CHANGEPASSWORDRESPONSE']._serialized_end=1818
+  _globals['_UPDATEUSERPROFILEREQUEST']._serialized_start=1821
+  _globals['_UPDATEUSERPROFILEREQUEST']._serialized_end=2140
+  _globals['_UPDATEUSERPROFILERESPONSE']._serialized_start=2142
+  _globals['_UPDATEUSERPROFILERESPONSE']._serialized_end=2186
+  _globals['_ADDROLEREQUEST']._serialized_start=2188
+  _globals['_ADDROLEREQUEST']._serialized_end=2243
+  _globals['_ADDROLERESPONSE']._serialized_start=2245
+  _globals['_ADDROLERESPONSE']._serialized_end=2279
+  _globals['_DELETEUSERREQUEST']._serialized_start=2281
+  _globals['_DELETEUSERREQUEST']._serialized_end=2317
+  _globals['_DELETEUSERRESPONSE']._serialized_start=2319
+  _globals['_DELETEUSERRESPONSE']._serialized_end=2356
+  _globals['_USER']._serialized_start=2359
+  _globals['_USER']._serialized_end=2976
 # @@protoc_insertion_point(module_scope)

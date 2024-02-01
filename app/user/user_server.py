@@ -7,8 +7,8 @@ from app.client.auth import auth_pb2_grpc, auth_pb2
 from app.core.config import settings
 from app.crud.photo import add_photo_to_user, update_avatar
 from app.crud.user import create_user, set_verify_token, user_email_exists, user_phone_number_exists, delete_user, \
-    update_user_by_id, get_user_by_id, update_user_password, is_user_role_exist, add_role_to_user, boxer_profile_by_id
-
+    update_user_by_id, get_user_by_id, update_user_password, is_user_role_exist, add_role_to_user, boxer_profile_by_id, \
+    boxers_filtered
 
 from app.minio_client.minio_client import minio_client
 from app.user import user_pb2, user_pb2_grpc
@@ -175,3 +175,17 @@ class User(user_pb2_grpc.UserServicer):
             user_id=UUID(request.user_id),
         )
         return user_pb2.DeleteUserResponse(message="User deleted")
+
+    async def Boxers(
+            self,
+            request: user_pb2.BoxersRequest,
+            context: grpc.aio.ServicerContext,
+    ) -> user_pb2.BoxersResponse:
+        data = await boxers_filtered(filtered_data=request)
+
+        for obj in data:
+            avatar_url = minio_client.presigned_get_object(
+                bucket_name=settings.MINIO_BUCKET,
+                object_name=obj.photo_name
+            )
+            yield user_pb2.BoxersResponse(**obj.to_dict(), avatar=avatar_url)

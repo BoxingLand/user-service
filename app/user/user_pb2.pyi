@@ -34,6 +34,66 @@ class UserBoxerProfileResponse(_message.Message):
     avatar: str
     def __init__(self, first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., sex: _Optional[str] = ..., birthday: _Optional[str] = ..., country: _Optional[str] = ..., region: _Optional[str] = ..., weight: _Optional[float] = ..., height: _Optional[float] = ..., athletic_distinction: _Optional[str] = ..., avatar: _Optional[str] = ...) -> None: ...
 
+class BoxersRequest(_message.Message):
+    __slots__ = ("first_name", "last_name", "club", "country", "region", "athletic_distinction", "sex", "min_weight", "max_weight", "min_height", "max_height", "min_age", "max_age", "min_birthday", "max_birthday", "page", "page_size")
+    FIRST_NAME_FIELD_NUMBER: _ClassVar[int]
+    LAST_NAME_FIELD_NUMBER: _ClassVar[int]
+    CLUB_FIELD_NUMBER: _ClassVar[int]
+    COUNTRY_FIELD_NUMBER: _ClassVar[int]
+    REGION_FIELD_NUMBER: _ClassVar[int]
+    ATHLETIC_DISTINCTION_FIELD_NUMBER: _ClassVar[int]
+    SEX_FIELD_NUMBER: _ClassVar[int]
+    MIN_WEIGHT_FIELD_NUMBER: _ClassVar[int]
+    MAX_WEIGHT_FIELD_NUMBER: _ClassVar[int]
+    MIN_HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    MAX_HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    MIN_AGE_FIELD_NUMBER: _ClassVar[int]
+    MAX_AGE_FIELD_NUMBER: _ClassVar[int]
+    MIN_BIRTHDAY_FIELD_NUMBER: _ClassVar[int]
+    MAX_BIRTHDAY_FIELD_NUMBER: _ClassVar[int]
+    PAGE_FIELD_NUMBER: _ClassVar[int]
+    PAGE_SIZE_FIELD_NUMBER: _ClassVar[int]
+    first_name: str
+    last_name: str
+    club: str
+    country: str
+    region: str
+    athletic_distinction: str
+    sex: str
+    min_weight: float
+    max_weight: float
+    min_height: float
+    max_height: float
+    min_age: int
+    max_age: int
+    min_birthday: str
+    max_birthday: str
+    page: int
+    page_size: int
+    def __init__(self, first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., club: _Optional[str] = ..., country: _Optional[str] = ..., region: _Optional[str] = ..., athletic_distinction: _Optional[str] = ..., sex: _Optional[str] = ..., min_weight: _Optional[float] = ..., max_weight: _Optional[float] = ..., min_height: _Optional[float] = ..., max_height: _Optional[float] = ..., min_age: _Optional[int] = ..., max_age: _Optional[int] = ..., min_birthday: _Optional[str] = ..., max_birthday: _Optional[str] = ..., page: _Optional[int] = ..., page_size: _Optional[int] = ...) -> None: ...
+
+class BoxersResponse(_message.Message):
+    __slots__ = ("first_name", "last_name", "club", "country", "region", "weight", "birthday", "athletic_distinction", "avatar")
+    FIRST_NAME_FIELD_NUMBER: _ClassVar[int]
+    LAST_NAME_FIELD_NUMBER: _ClassVar[int]
+    CLUB_FIELD_NUMBER: _ClassVar[int]
+    COUNTRY_FIELD_NUMBER: _ClassVar[int]
+    REGION_FIELD_NUMBER: _ClassVar[int]
+    WEIGHT_FIELD_NUMBER: _ClassVar[int]
+    BIRTHDAY_FIELD_NUMBER: _ClassVar[int]
+    ATHLETIC_DISTINCTION_FIELD_NUMBER: _ClassVar[int]
+    AVATAR_FIELD_NUMBER: _ClassVar[int]
+    first_name: str
+    last_name: str
+    club: str
+    country: str
+    region: str
+    weight: float
+    birthday: str
+    athletic_distinction: str
+    avatar: str
+    def __init__(self, first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., club: _Optional[str] = ..., country: _Optional[str] = ..., region: _Optional[str] = ..., weight: _Optional[float] = ..., birthday: _Optional[str] = ..., athletic_distinction: _Optional[str] = ..., avatar: _Optional[str] = ...) -> None: ...
+
 class UploadFileRequest(_message.Message):
     __slots__ = ("file_content", "is_avatar", "content_type", "user_id")
     FILE_CONTENT_FIELD_NUMBER: _ClassVar[int]

@@ -54,6 +54,11 @@ class UserStub(object):
                 request_serializer=user__pb2.UserBoxerProfileRequest.SerializeToString,
                 response_deserializer=user__pb2.UserBoxerProfileResponse.FromString,
                 )
+        self.Boxers = channel.unary_stream(
+                '/user.User/Boxers',
+                request_serializer=user__pb2.BoxersRequest.SerializeToString,
+                response_deserializer=user__pb2.BoxersResponse.FromString,
+                )
 
 
 class UserServicer(object):
@@ -107,6 +112,13 @@ class UserServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Boxers(self, request, context):
+        """rpc Me(MeRequest) returns (MeResponse) {}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -149,6 +161,11 @@ def add_UserServicer_to_server(servicer, server):
                     servicer.UserBoxerProfile,
                     request_deserializer=user__pb2.UserBoxerProfileRequest.FromString,
                     response_serializer=user__pb2.UserBoxerProfileResponse.SerializeToString,
+            ),
+            'Boxers': grpc.unary_stream_rpc_method_handler(
+                    servicer.Boxers,
+                    request_deserializer=user__pb2.BoxersRequest.FromString,
+                    response_serializer=user__pb2.BoxersResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -293,5 +310,22 @@ class User(object):
         return grpc.experimental.unary_unary(request, target, '/user.User/UserBoxerProfile',
             user__pb2.UserBoxerProfileRequest.SerializeToString,
             user__pb2.UserBoxerProfileResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Boxers(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/user.User/Boxers',
+            user__pb2.BoxersRequest.SerializeToString,
+            user__pb2.BoxersResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

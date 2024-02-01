@@ -6,7 +6,7 @@ from psycopg.rows import class_row
 
 from app.database.connection import pool
 
-from app.models.user import User, BoxerProfile
+from app.models.user import User, BoxerProfile, Boxer
 from app.user import user_pb2
 
 
@@ -333,6 +333,60 @@ async def boxer_profile_by_id(
                 WHERE u.id = '{user_id}' AND b.is_deleted = FALSE;
                             """)
             data = await cur.fetchone()
+            if data is None:
+                return None
+            return data
+
+async def boxers_filtered(
+        filtered_data = user_pb2.BoxersRequest
+) -> list[Boxer] | None:
+    async with pool.connection() as conn:
+        async with conn.cursor(row_factory=class_row(Boxer)) as cur:
+            conditions = []
+
+            if filtered_data.first_name:
+                conditions.append(f"first_name = '{filtered_data.first_name}'")
+            if filtered_data.last_name:
+                conditions.append(f"last_name = '{filtered_data.last_name}'")
+            if filtered_data.country:
+                conditions.append(f"country = '{filtered_data.country}'")
+            if filtered_data.region:
+                conditions.append(f"region = '{filtered_data.region}'")
+            if filtered_data.athletic_distinction:
+                conditions.append(f"athletic_distinction = '{filtered_data.athletic_distinction}'")
+            if filtered_data.sex:
+                conditions.append(f"sex = '{filtered_data.sex}'")
+            if filtered_data.min_weight:
+                conditions.append(f"weight >= {filtered_data.min_weight}")
+            if filtered_data.max_weight:
+                conditions.append(f"weight <= {filtered_data.max_weight}")
+            if filtered_data.min_height:
+                conditions.append(f"height >= {filtered_data.min_height}")
+            if filtered_data.max_height:
+                conditions.append(f"height <= {filtered_data.max_height}")
+            if filtered_data.min_age:
+                conditions.append(f"age >= {filtered_data.min_age}")
+            if filtered_data.max_age:
+                conditions.append(f"age <= {filtered_data.max_age}")
+            if filtered_data.min_birthday:
+                conditions.append(f"birthday >= '{filtered_data.min_birthday}'")
+            if filtered_data.max_birthday:
+                conditions.append(f"birthday <= '{filtered_data.max_birthday}'")
+
+            sql = """
+                SELECT u.first_name, u.last_name, u.country, u.region, b.weight,  u.birthday, b.athletic_distinction, p.photo_name
+                FROM "user" u
+                JOIN "boxer" b ON u.id = b.user_id
+                LEFT JOIN "photo" p ON u.id = p.user_id AND p.is_avatar = TRUE
+                WHERE b.is_deleted = False"""
+            if conditions:
+                sql += " AND {}".format(" AND ".join(conditions))
+
+
+            sql += f" LIMIT {filtered_data.page_size} OFFSET {(filtered_data.page - 1) * filtered_data.page_size}"
+
+            await cur.execute(sql)
+            data = await cur.fetchall()
             if data is None:
                 return None
             return data

@@ -40,3 +40,19 @@ class BoxerProfile(BaseModel):
         if self.birthday:
             d['birthday'] = self.birthday.isoformat()
         return d
+
+class Boxer(BaseModel):
+    first_name: str
+    last_name: str
+    country: str
+    region: str
+    weight: float
+    birthday: date
+    athletic_distinction: str
+    photo_name: str
+
+    def to_dict(self):
+        d = self.model_dump(exclude={'photo_name'})
+        if self.birthday:
+            d['birthday'] = self.birthday.isoformat()
+        return d
