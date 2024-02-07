@@ -1,6 +1,6 @@
 CREATE TYPE sex AS ENUM('male', 'female');
 
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
     id UUID PRIMARY KEY,
     email VARCHAR(255),
     password VARCHAR(255),
@@ -20,7 +20,7 @@ CREATE TABLE "user" (
     is_deleted BOOLEAN
 );
 
-CREATE TABLE "boxer" (
+CREATE TABLE IF NOT EXISTS "boxer" (
     id UUID PRIMARY KEY,
     weight float,
     height float,
@@ -32,7 +32,7 @@ CREATE TABLE "boxer" (
     is_deleted BOOLEAN
 );
 
-CREATE TABLE "coach" (
+CREATE TABLE IF NOT EXISTS "coach" (
     id UUID PRIMARY KEY,
     user_id UUID,
     updated_at timestamp,
@@ -40,7 +40,7 @@ CREATE TABLE "coach" (
     is_deleted BOOLEAN
 );
 
-CREATE TABLE "judge" (
+CREATE TABLE IF NOT EXISTS "judge" (
     id UUID PRIMARY KEY,
     user_id UUID,
     judical_rank VARCHAR(255),
@@ -49,7 +49,7 @@ CREATE TABLE "judge" (
     is_deleted BOOLEAN
 );
 
-CREATE TABLE "organizer" (
+CREATE TABLE IF NOT EXISTS "organizer" (
     id UUID PRIMARY KEY,
     user_id UUID,
     updated_at timestamp,
@@ -57,7 +57,7 @@ CREATE TABLE "organizer" (
     is_deleted BOOLEAN
 );
 
-CREATE TABLE "photo" (
+CREATE TABLE IF NOT EXISTS "photo" (
     id UUID PRIMARY KEY,
     user_id UUID,
     photo_name VARCHAR(255),

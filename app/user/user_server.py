@@ -39,14 +39,13 @@ class User(user_pb2_grpc.UserServicer):
             await context.abort(grpc.StatusCode.ALREADY_EXISTS, details="Phone")
 
         request.password = encrypt_password(password=request.password)
-        await create_user(signup_data=request, context=context)
+        await create_user(signup_data=request)
 
         verification_token = generate_verification_token()
 
         await set_verify_token(
             email=request.email,
-            verify_token=verification_token,
-            context=context
+            verify_token=verification_token
         )
 
         # TODO email подтверждение переписать
@@ -60,7 +59,7 @@ class User(user_pb2_grpc.UserServicer):
         user = await authenticate(signin_data=request, context=context)
 
 
-        async with grpc.aio.insecure_channel("localhost:50052") as channel:
+        async with grpc.aio.insecure_channel(settings.AUTH_SERVICE_URL) as channel:
             stub = auth_pb2_grpc.AuthStub(channel)
             response = await stub.CreateTokens(auth_pb2.CreateTokensRequest(
                 user_id=str(user.id)
@@ -96,7 +95,7 @@ class User(user_pb2_grpc.UserServicer):
             new_password=encrypt_password(password=request.new_password)
         )
 
-        async with grpc.aio.insecure_channel("localhost:50052") as channel:
+        async with grpc.aio.insecure_channel(settings.AUTH_SERVICE_URL) as channel:
             stub = auth_pb2_grpc.AuthStub(channel)
             response = await stub.CreateTokens(auth_pb2.CreateTokensRequest(
                 user_id=str(user.id)

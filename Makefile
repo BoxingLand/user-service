@@ -20,3 +20,9 @@ ruff:
 
 grpc:
 	python3 -m grpc_tools.protoc -I./app/protos --python_out=. --pyi_out=. --grpc_python_out=. ./app/protos/user.proto
+
+build:
+	docker build -t emurashin/user-service:latest .
+
+push:
+	docker push emurashin/user-service:latest

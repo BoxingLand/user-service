@@ -1,6 +1,5 @@
 from uuid import UUID, uuid4
 
-import grpc
 from loguru import logger
 from psycopg.rows import class_row
 
@@ -12,7 +11,6 @@ from app.user import user_pb2
 
 async def create_user(
         signup_data: user_pb2.SignupRequest,
-        context: grpc.aio.ServicerContext,
 ) -> None:
     try:
         async with pool.connection() as conn:
@@ -43,7 +41,6 @@ async def create_user(
     except Exception as e:
         logger.error(e)
         await conn.rollback()
-        await context.abort(grpc.StatusCode.INTERNAL)
 
 
 async def get_user_by_id(
