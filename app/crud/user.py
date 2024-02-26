@@ -1,9 +1,12 @@
 from uuid import UUID, uuid4
 
+import grpc
 from loguru import logger
 from psycopg.rows import class_row
 
 from app.database.connection import pool
+from app.error.error import Error, UserEmailExistError, UserPhoneExistError
+from app.error.error_details import EMAIL, PHONE
 
 from app.models.user import User, BoxerProfile, Boxer
 from app.user import user_pb2
@@ -87,7 +90,7 @@ async def get_user_by_phone_number(
 
 async def user_email_exists(
         email: str,
-) -> str | None:
+) -> UserEmailExistError | None:
     async with pool.connection() as conn:
         async with conn.cursor() as cur:
             await cur.execute(f"""
@@ -98,12 +101,12 @@ async def user_email_exists(
             user_email = await cur.fetchone()
             if user_email is None:
                 return None
-            return user_email[0]
+            return UserEmailExistError()
 
 
 async def user_phone_number_exists(
         phone_number: str,
-) -> str | None:
+) -> UserPhoneExistError | None:
     async with pool.connection() as conn:
         async with conn.cursor() as cur:
             await cur.execute(f"""
@@ -114,7 +117,7 @@ async def user_phone_number_exists(
             user_phone_number = await cur.fetchone()
             if user_phone_number is None:
                 return None
-            return user_phone_number[0]
+            return UserPhoneExistError()
 
 
 async def get_verify_token_by_user_email(
@@ -218,6 +221,33 @@ async def update_user_by_id(
         logger.error(e)
         await conn.rollback()
 
+async def update_boxer_by_user_id(
+        update_data: user_pb2.UpdateBoxerRequest,
+) -> None:
+    try:
+        async with pool.connection() as conn:
+            async with conn.cursor() as cur:
+                await cur.execute(f"""
+                    UPDATE "boxer"
+                    SET weight = COALESCE(
+                        {f"'{update_data.weight}'" if update_data.weight != '' else 'NULL'},
+                        weight
+                    ),
+                    height = COALESCE(
+                        {f"'{update_data.height}'" if update_data.height != '' else 'NULL'},
+                        height
+                    ),
+                    athletic_distinction = COALESCE(
+                        {f"'{update_data.athletic_distinction}'" if update_data.athletic_distinction != '' else 'NULL'},
+                        athletic_distinction
+                    ),
+                    updated_at = now()::timestamp
+                    WHERE user_id = '{update_data.user_id}' AND is_deleted = FALSE;
+                                """)
+            await conn.commit()
+    except Exception as e:
+        logger.error(e)
+        await conn.rollback()
 
 async def update_user_password(
         user_id: UUID,
@@ -330,9 +360,8 @@ async def boxer_profile_by_id(
                 WHERE u.id = '{user_id}' AND b.is_deleted = FALSE;
                             """)
             data = await cur.fetchone()
-            if data is None:
-                return None
             return data
+
 
 async def boxers_filtered(
         filtered_data = user_pb2.BoxersRequest
@@ -384,6 +413,4 @@ async def boxers_filtered(
 
             await cur.execute(sql)
             data = await cur.fetchall()
-            if data is None:
-                return None
             return data

@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS "judge" (
 CREATE TABLE IF NOT EXISTS "organizer" (
     id UUID PRIMARY KEY,
     user_id UUID,
+    about TEXT,
     updated_at timestamp,
     created_at timestamp,
     is_deleted BOOLEAN

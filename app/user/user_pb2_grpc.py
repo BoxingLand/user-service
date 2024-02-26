@@ -34,6 +34,11 @@ class UserStub(object):
                 request_serializer=user__pb2.UpdateUserProfileRequest.SerializeToString,
                 response_deserializer=user__pb2.UpdateUserProfileResponse.FromString,
                 )
+        self.UpdateBoxer = channel.unary_unary(
+                '/user.User/UpdateBoxer',
+                request_serializer=user__pb2.UpdateBoxerRequest.SerializeToString,
+                response_deserializer=user__pb2.UpdateBoxerResponse.FromString,
+                )
         self.AddRole = channel.unary_unary(
                 '/user.User/AddRole',
                 request_serializer=user__pb2.AddRoleRequest.SerializeToString,
@@ -83,6 +88,12 @@ class UserServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def UpdateUserProfile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateBoxer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -141,6 +152,11 @@ def add_UserServicer_to_server(servicer, server):
                     servicer.UpdateUserProfile,
                     request_deserializer=user__pb2.UpdateUserProfileRequest.FromString,
                     response_serializer=user__pb2.UpdateUserProfileResponse.SerializeToString,
+            ),
+            'UpdateBoxer': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateBoxer,
+                    request_deserializer=user__pb2.UpdateBoxerRequest.FromString,
+                    response_serializer=user__pb2.UpdateBoxerResponse.SerializeToString,
             ),
             'AddRole': grpc.unary_unary_rpc_method_handler(
                     servicer.AddRole,
@@ -242,6 +258,23 @@ class User(object):
         return grpc.experimental.unary_unary(request, target, '/user.User/UpdateUserProfile',
             user__pb2.UpdateUserProfileRequest.SerializeToString,
             user__pb2.UpdateUserProfileResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateBoxer(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/user.User/UpdateBoxer',
+            user__pb2.UpdateBoxerRequest.SerializeToString,
+            user__pb2.UpdateBoxerResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

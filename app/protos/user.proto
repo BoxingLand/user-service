@@ -7,6 +7,7 @@ service User {
    rpc Signin(SigninRequest) returns (SigninResponse) {}
    rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {}
    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {}
+   rpc UpdateBoxer(UpdateBoxerRequest) returns (UpdateBoxerResponse) {}
    rpc AddRole(AddRoleRequest) returns (AddRoleResponse) {}
    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
    rpc UploadFile(UploadFileRequest) returns (UploadFileResponse) {}
@@ -94,7 +95,7 @@ message UploadFileRequest {
   string user_id = 4;
 }
 
-message UploadFileResponse {
+message UpdateBoxerResponse {
   string message = 1;
 }
 
@@ -149,6 +150,17 @@ message UpdateUserProfileRequest {
 
 message UpdateUserProfileResponse {
    string message = 1;
+}
+
+message UploadFileResponse {
+  string message = 1;
+}
+
+message UpdateBoxerRequest {
+  optional double weight = 1;
+  optional double height = 2;
+  optional string athletic_distinction = 3;
+  string user_id = 4;
 }
 
 message AddRoleRequest {

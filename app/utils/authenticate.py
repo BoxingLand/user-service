@@ -12,11 +12,11 @@ async def authenticate(
 
 ) -> User | None:
     user: User
-    if signin_data.email is not None:
+    if signin_data.email != "":
         user = await get_user_by_email(email=signin_data.email)
         if user is None:
             await context.abort(grpc.StatusCode.NOT_FOUND)
-    elif signin_data.phone_number is not None:
+    elif signin_data.phone_number != "":
         user = await get_user_by_phone_number(phone_number=signin_data.phone_number)
         if user is None:
             await context.abort(grpc.StatusCode.NOT_FOUND)

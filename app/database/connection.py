@@ -3,7 +3,12 @@ from loguru import logger
 from psycopg_pool import AsyncConnectionPool
 
 logger.info(settings.get_db_connection_scheme())
-pool = AsyncConnectionPool(conninfo=settings.get_db_connection_scheme(), open=False, max_size=settings.DB_POOL_SIZE)
+
+pool = AsyncConnectionPool(
+    conninfo=settings.get_db_connection_scheme(),
+    open=False,
+    max_size=settings.DB_POOL_SIZE
+)
 
 
 async def open_pool():

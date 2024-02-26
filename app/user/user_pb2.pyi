@@ -106,7 +106,7 @@ class UploadFileRequest(_message.Message):
     user_id: str
     def __init__(self, file_content: _Optional[bytes] = ..., is_avatar: bool = ..., content_type: _Optional[str] = ..., user_id: _Optional[str] = ...) -> None: ...
 
-class UploadFileResponse(_message.Message):
+class UpdateBoxerResponse(_message.Message):
     __slots__ = ("message",)
     MESSAGE_FIELD_NUMBER: _ClassVar[int]
     message: str
@@ -201,6 +201,24 @@ class UpdateUserProfileResponse(_message.Message):
     MESSAGE_FIELD_NUMBER: _ClassVar[int]
     message: str
     def __init__(self, message: _Optional[str] = ...) -> None: ...
+
+class UploadFileResponse(_message.Message):
+    __slots__ = ("message",)
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    message: str
+    def __init__(self, message: _Optional[str] = ...) -> None: ...
+
+class UpdateBoxerRequest(_message.Message):
+    __slots__ = ("weight", "height", "athletic_distinction", "user_id")
+    WEIGHT_FIELD_NUMBER: _ClassVar[int]
+    HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    ATHLETIC_DISTINCTION_FIELD_NUMBER: _ClassVar[int]
+    USER_ID_FIELD_NUMBER: _ClassVar[int]
+    weight: float
+    height: float
+    athletic_distinction: str
+    user_id: str
+    def __init__(self, weight: _Optional[float] = ..., height: _Optional[float] = ..., athletic_distinction: _Optional[str] = ..., user_id: _Optional[str] = ...) -> None: ...
 
 class AddRoleRequest(_message.Message):
     __slots__ = ("account_type", "user_id")
