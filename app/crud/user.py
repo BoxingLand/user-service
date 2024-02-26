@@ -1,15 +1,11 @@
 from uuid import UUID, uuid4
 
-import grpc
+from app.database.connection import pool
+from app.error.error import UserEmailExistError, UserPhoneExistError
+from app.models.user import Boxer, BoxerProfile, User
+from app.user import user_pb2
 from loguru import logger
 from psycopg.rows import class_row
-
-from app.database.connection import pool
-from app.error.error import Error, UserEmailExistError, UserPhoneExistError
-from app.error.error_details import EMAIL, PHONE
-
-from app.models.user import User, BoxerProfile, Boxer
-from app.user import user_pb2
 
 
 async def create_user(
@@ -221,6 +217,7 @@ async def update_user_by_id(
         logger.error(e)
         await conn.rollback()
 
+
 async def update_boxer_by_user_id(
         update_data: user_pb2.UpdateBoxerRequest,
 ) -> None:
@@ -248,6 +245,7 @@ async def update_boxer_by_user_id(
     except Exception as e:
         logger.error(e)
         await conn.rollback()
+
 
 async def update_user_password(
         user_id: UUID,
@@ -364,7 +362,7 @@ async def boxer_profile_by_id(
 
 
 async def boxers_filtered(
-        filtered_data = user_pb2.BoxersRequest
+        filtered_data=user_pb2.BoxersRequest
 ) -> list[Boxer] | None:
     async with pool.connection() as conn:
         async with conn.cursor(row_factory=class_row(Boxer)) as cur:
@@ -407,7 +405,6 @@ async def boxers_filtered(
                 WHERE b.is_deleted = False"""
             if conditions:
                 sql += " AND {}".format(" AND ".join(conditions))
-
 
             sql += f" LIMIT {filtered_data.page_size} OFFSET {(filtered_data.page - 1) * filtered_data.page_size}"
 
